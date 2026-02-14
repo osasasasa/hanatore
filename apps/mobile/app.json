@@ -15,7 +15,11 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.hanatore.app"
+      "bundleIdentifier": "com.hanatore.app",
+      "infoPlist": {
+        "NSSpeechRecognitionUsageDescription": "音声入力で回答するために使用します",
+        "NSMicrophoneUsageDescription": "音声認識のためにマイクを使用します"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -31,7 +35,8 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-speech-recognition"
     ],
     "experiments": {
       "typedRoutes": true

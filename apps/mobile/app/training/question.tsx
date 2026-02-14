@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
 import { router } from 'expo-router';
 import { COLORS, MASCOT } from '../../constants/colors';
 import { useTrainingStore } from '../../store/useTrainingStore';
+import { VoiceInputArea } from '../../components/VoiceInputArea';
 
 export default function QuestionScreen() {
   const {
@@ -210,21 +211,16 @@ export default function QuestionScreen() {
           </View>
         )}
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.textInput}
-            placeholder={
-              hasStructuredSteps && question.structuredSteps
-                ? `Step ${currentStep + 1}: ${question.structuredSteps[currentStep]}`
-                : 'ここに回答を入力...'
-            }
-            placeholderTextColor={COLORS.textLight}
-            value={answer}
-            onChangeText={setAnswer}
-            multiline
-            textAlignVertical="top"
-          />
-        </View>
+        <VoiceInputArea
+          key={`${currentSession?.id}-${currentQuestionIndex}-${currentStep}`}
+          value={answer}
+          onChangeText={setAnswer}
+          placeholder={
+            hasStructuredSteps && question.structuredSteps
+              ? `Step ${currentStep + 1}: ${question.structuredSteps[currentStep]}`
+              : 'ここに回答を入力...'
+          }
+        />
       </ScrollView>
 
       <View style={styles.footer}>
@@ -419,23 +415,6 @@ const styles = StyleSheet.create({
   stepTextCurrent: {
     color: COLORS.text,
     fontWeight: '600',
-  },
-  inputContainer: {
-    backgroundColor: COLORS.white,
-    borderRadius: 16,
-    padding: 4,
-    shadowColor: COLORS.cardShadow,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  textInput: {
-    minHeight: 120,
-    padding: 16,
-    fontSize: 16,
-    color: COLORS.text,
-    lineHeight: 24,
   },
   footer: {
     flexDirection: 'row',

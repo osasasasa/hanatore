@@ -25,6 +25,10 @@ Thumbs.db
 *.log
 npm-debug.log*
 
+# Native builds (managed by expo prebuild)
+ios/
+android/
+
 # Testing
 coverage/
 
