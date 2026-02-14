@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, MASCOT } from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
+import { Mascot } from '../../components/Mascot';
 import { useTrainingStore } from '../../store/useTrainingStore';
 
 const CATEGORY_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
@@ -58,7 +59,7 @@ export default function HistoryScreen() {
 
         {sessionHistory.length === 0 ? (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyMascot}>{MASCOT}</Text>
+            <Mascot mood="sad" size={80} style={styles.emptyMascot} />
             <Text style={styles.emptyText}>まだトレーニング履歴がありません</Text>
             <Text style={styles.emptySubText}>ホーム画面からトレーニングを始めましょう！</Text>
           </View>
@@ -180,7 +181,6 @@ const styles = StyleSheet.create({
     padding: 40,
   },
   emptyMascot: {
-    fontSize: 64,
     marginBottom: 16,
   },
   emptyText: {

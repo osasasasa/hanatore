@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, MASCOT } from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
+import { Mascot } from '../../components/Mascot';
 import { useTrainingStore, TrainingCategory, TrainingMode } from '../../store/useTrainingStore';
 
 const CATEGORY_INFO: Record<TrainingCategory, { icon: keyof typeof Ionicons.glyphMap; name: string; description: string }> = {
@@ -60,7 +61,7 @@ export default function TrainingSelectScreen() {
         </View>
 
         <View style={styles.mascotSection}>
-          <Text style={styles.mascot}>{MASCOT}</Text>
+          <Mascot size={64} />
           <View style={styles.speechBubble}>
             <Text style={styles.speechText}>
               どのモードでトレーニングする？
@@ -137,7 +138,6 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   mascot: {
-    fontSize: 48,
     marginRight: 12,
   },
   speechBubble: {

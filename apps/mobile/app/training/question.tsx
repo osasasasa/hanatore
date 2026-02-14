@@ -2,7 +2,8 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } fr
 import { useState, useEffect, useRef } from 'react';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, MASCOT } from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
+import { Mascot } from '../../components/Mascot';
 import { useTrainingStore } from '../../store/useTrainingStore';
 import { VoiceInputArea } from '../../components/VoiceInputArea';
 
@@ -177,7 +178,7 @@ export default function QuestionScreen() {
 
         <View style={styles.questionCard}>
           <View style={styles.questionHeader}>
-            <Text style={styles.mascot}>{MASCOT}</Text>
+            <Mascot size={56} />
             <View style={styles.speechBubble}>
               <Text style={styles.questionText}>{question.prompt}</Text>
             </View>
@@ -366,7 +367,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   mascot: {
-    fontSize: 40,
     marginRight: 12,
   },
   speechBubble: {

@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import { useEffect } from 'react';
 import { router } from 'expo-router';
-import { COLORS, MASCOT } from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
+import { Mascot, MascotMood } from '../../components/Mascot';
 import { useTrainingStore } from '../../store/useTrainingStore';
 
 export default function ResultScreen() {
@@ -35,6 +36,7 @@ export default function ResultScreen() {
   };
 
   const scoreInfo = getScoreGrade(averageScore);
+  const mascotMood: MascotMood = averageScore >= 80 ? 'excited' : averageScore >= 60 ? 'normal' : 'sad';
 
   const handleGoHome = () => {
     resetSession();
@@ -58,7 +60,7 @@ export default function ResultScreen() {
         </View>
 
         <View style={styles.mascotSection}>
-          <Text style={styles.mascot}>{MASCOT}</Text>
+          <Mascot mood={mascotMood} size={72} />
           <View style={styles.speechBubble}>
             <Text style={styles.speechText}>{scoreInfo.message}</Text>
           </View>
@@ -177,7 +179,6 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   mascot: {
-    fontSize: 56,
     marginRight: 12,
   },
   speechBubble: {

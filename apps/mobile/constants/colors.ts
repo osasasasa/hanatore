@@ -12,5 +12,3 @@ export const COLORS = {
   border: '#DFE6E9',
   cardShadow: '#000000',
 };
-
-export const MASCOT = '🦊';

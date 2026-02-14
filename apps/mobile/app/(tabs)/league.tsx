@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, MASCOT } from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
+import { Mascot } from '../../components/Mascot';
 import { useTrainingStore } from '../../store/useTrainingStore';
 
 type LeagueTier = 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
@@ -50,7 +51,7 @@ function RankBadge({ rank }: { rank: number }) {
 
 function UserAvatar({ user }: { user: LeagueUser }) {
   if (user.isCurrentUser) {
-    return <Text style={styles.rankAvatar}>{MASCOT}</Text>;
+    return <Mascot size={32} style={styles.rankAvatar} />;
   }
   return (
     <View style={[styles.avatarCircle, { backgroundColor: user.avatarColor }]}>
@@ -284,7 +285,6 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   },
   rankAvatar: {
-    fontSize: 24,
     marginHorizontal: 12,
   },
   avatarCircle: {

@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, MASCOT } from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
+import { Mascot } from '../../components/Mascot';
 import { useTrainingStore } from '../../store/useTrainingStore';
 
 interface SettingItemProps {
@@ -45,7 +46,7 @@ export default function SettingsScreen() {
         </View>
 
         <View style={styles.profileSection}>
-          <Text style={styles.profileAvatar}>{MASCOT}</Text>
+          <Mascot size={64} style={styles.profileAvatar} />
           <View style={styles.profileInfo}>
             <Text style={styles.profileName}>ハナトレユーザー</Text>
             <Text style={styles.profileLevel}>
@@ -191,7 +192,6 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   profileAvatar: {
-    fontSize: 48,
     marginRight: 16,
   },
   profileInfo: {

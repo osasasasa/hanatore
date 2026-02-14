@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, MASCOT } from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
+import { Mascot } from '../../components/Mascot';
 import { useTrainingStore, TrainingCategory } from '../../store/useTrainingStore';
 
 const TRAINING_CATEGORIES: { id: TrainingCategory; icon: keyof typeof Ionicons.glyphMap; name: string; description: string }[] = [
@@ -33,7 +34,7 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.profileCard}>
-          <Text style={styles.mascot}>{MASCOT}</Text>
+          <Mascot size={64} />
           <Text style={styles.level}>Lv.{userProgress.level} {userProgress.title}</Text>
           <View style={styles.xpBar}>
             <View style={[styles.xpFill, { width: `${xpPercentage}%` }]} />
@@ -125,7 +126,6 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   mascot: {
-    fontSize: 48,
     marginBottom: 8,
   },
   level: {
