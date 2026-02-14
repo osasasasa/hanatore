@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS, MASCOT } from '../../constants/colors';
 import { useTrainingStore } from '../../store/useTrainingStore';
 import { VoiceInputArea } from '../../components/VoiceInputArea';
@@ -135,8 +136,8 @@ export default function QuestionScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.replace('/')}>
-          <Text style={styles.closeButton}>✕</Text>
+        <TouchableOpacity onPress={() => router.replace('/')} style={styles.closeButton}>
+          <Ionicons name="close" size={24} color={COLORS.textSub} />
         </TouchableOpacity>
         <View style={styles.progressContainer}>
           <View style={styles.progressBar}>
@@ -157,9 +158,16 @@ export default function QuestionScreen() {
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <View style={styles.modeTag}>
-          <Text style={styles.modeTagText}>
-            {isQuickMode ? '⚡ 瞬発力モード' : '📐 構造化モード'}
-          </Text>
+          <View style={styles.modeTagInner}>
+            <Ionicons
+              name={isQuickMode ? 'flash' : 'layers'}
+              size={14}
+              color={COLORS.textSub}
+            />
+            <Text style={styles.modeTagText}>
+              {isQuickMode ? '瞬発力モード' : '構造化モード'}
+            </Text>
+          </View>
         </View>
 
         <View style={styles.situationCard}>
@@ -194,9 +202,11 @@ export default function QuestionScreen() {
                     index === currentStep && styles.stepDotCurrent,
                   ]}
                 >
-                  <Text style={styles.stepNumber}>
-                    {index < currentStep ? '✓' : index + 1}
-                  </Text>
+                  {index < currentStep ? (
+                    <Ionicons name="checkmark" size={16} color={COLORS.white} />
+                  ) : (
+                    <Text style={styles.stepNumber}>{index + 1}</Text>
+                  )}
                 </View>
                 <Text
                   style={[
@@ -257,8 +267,6 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   closeButton: {
-    fontSize: 24,
-    color: COLORS.textSub,
     padding: 4,
   },
   progressContainer: {
@@ -322,6 +330,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 2,
     elevation: 1,
+  },
+  modeTagInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
   modeTagText: {
     fontSize: 14,

@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Animated } from 'react-native';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../constants/colors';
 import { useSpeechToText } from '../hooks/useSpeechToText';
 
@@ -77,7 +78,10 @@ export function VoiceInputArea({ value, onChangeText, placeholder }: Props) {
         />
         {isAvailable && (
           <TouchableOpacity style={styles.switchButton} onPress={switchToVoice}>
-            <Text style={styles.switchButtonText}>🎤 音声入力に切替</Text>
+            <View style={styles.switchButtonInner}>
+              <Ionicons name="mic-outline" size={14} color={COLORS.textSub} />
+              <Text style={styles.switchButtonText}>音声入力に切替</Text>
+            </View>
           </TouchableOpacity>
         )}
       </View>
@@ -100,7 +104,10 @@ export function VoiceInputArea({ value, onChangeText, placeholder }: Props) {
 
       <View style={styles.controls}>
         <TouchableOpacity style={styles.switchButton} onPress={switchToText}>
-          <Text style={styles.switchButtonText}>⌨️ テキスト入力に切替</Text>
+          <View style={styles.switchButtonInner}>
+            <Ionicons name="text-outline" size={14} color={COLORS.textSub} />
+            <Text style={styles.switchButtonText}>テキスト入力に切替</Text>
+          </View>
         </TouchableOpacity>
 
         <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
@@ -108,7 +115,11 @@ export function VoiceInputArea({ value, onChangeText, placeholder }: Props) {
             style={[styles.micButton, isListening && styles.micButtonActive]}
             onPress={handleMicPress}
           >
-            <Text style={styles.micIcon}>{isListening ? '⏹' : '🎤'}</Text>
+            <Ionicons
+              name={isListening ? 'stop' : 'mic'}
+              size={24}
+              color={COLORS.white}
+            />
           </TouchableOpacity>
         </Animated.View>
       </View>
@@ -169,12 +180,14 @@ const styles = StyleSheet.create({
   micButtonActive: {
     backgroundColor: COLORS.error,
   },
-  micIcon: {
-    fontSize: 24,
-  },
   switchButton: {
     paddingVertical: 8,
     paddingHorizontal: 12,
+  },
+  switchButtonInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
   switchButtonText: {
     fontSize: 13,

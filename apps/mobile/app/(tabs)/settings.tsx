@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS, MASCOT } from '../../constants/colors';
 import { useTrainingStore } from '../../store/useTrainingStore';
 
 interface SettingItemProps {
-  icon: string;
+  icon: keyof typeof Ionicons.glyphMap;
   title: string;
   subtitle?: string;
   onPress?: () => void;
@@ -20,13 +21,13 @@ function SettingItem({ icon, title, subtitle, onPress, rightElement }: SettingIt
       activeOpacity={onPress ? 0.7 : 1}
     >
       <View style={styles.settingLeft}>
-        <Text style={styles.settingIcon}>{icon}</Text>
+        <Ionicons name={icon} size={22} color={COLORS.textSub} style={styles.settingIcon} />
         <View>
           <Text style={styles.settingTitle}>{title}</Text>
           {subtitle && <Text style={styles.settingSubtitle}>{subtitle}</Text>}
         </View>
       </View>
-      {rightElement || (onPress && <Text style={styles.settingArrow}>›</Text>)}
+      {rightElement || (onPress && <Ionicons name="chevron-forward" size={20} color={COLORS.textLight} />)}
     </TouchableOpacity>
   );
 }
@@ -40,7 +41,7 @@ export default function SettingsScreen() {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <Text style={styles.title}>⚙️ 設定</Text>
+          <Text style={styles.title}>設定</Text>
         </View>
 
         <View style={styles.profileSection}>
@@ -57,19 +58,19 @@ export default function SettingsScreen() {
           <Text style={styles.sectionTitle}>アカウント</Text>
           <View style={styles.sectionCard}>
             <SettingItem
-              icon="👤"
+              icon="person-outline"
               title="プロフィール編集"
               subtitle="名前・アバター"
               onPress={() => {}}
             />
             <SettingItem
-              icon="📊"
+              icon="stats-chart-outline"
               title="学習データ"
               subtitle="統計・履歴"
               onPress={() => {}}
             />
             <SettingItem
-              icon="🏆"
+              icon="trophy-outline"
               title="実績"
               subtitle="獲得バッジ"
               onPress={() => {}}
@@ -81,7 +82,7 @@ export default function SettingsScreen() {
           <Text style={styles.sectionTitle}>アプリ設定</Text>
           <View style={styles.sectionCard}>
             <SettingItem
-              icon="🔔"
+              icon="notifications-outline"
               title="通知"
               subtitle="リマインダー・お知らせ"
               rightElement={
@@ -94,7 +95,7 @@ export default function SettingsScreen() {
               }
             />
             <SettingItem
-              icon="🔊"
+              icon="volume-high-outline"
               title="サウンド"
               subtitle="効果音・BGM"
               rightElement={
@@ -107,13 +108,13 @@ export default function SettingsScreen() {
               }
             />
             <SettingItem
-              icon="⏱️"
+              icon="timer-outline"
               title="デフォルト制限時間"
               subtitle="30秒"
               onPress={() => {}}
             />
             <SettingItem
-              icon="🌙"
+              icon="moon-outline"
               title="ダークモード"
               subtitle="システム設定に従う"
               onPress={() => {}}
@@ -125,27 +126,27 @@ export default function SettingsScreen() {
           <Text style={styles.sectionTitle}>その他</Text>
           <View style={styles.sectionCard}>
             <SettingItem
-              icon="❓"
+              icon="help-circle-outline"
               title="ヘルプ・使い方"
               onPress={() => {}}
             />
             <SettingItem
-              icon="📝"
+              icon="create-outline"
               title="フィードバックを送る"
               onPress={() => {}}
             />
             <SettingItem
-              icon="⭐"
+              icon="star-outline"
               title="アプリを評価する"
               onPress={() => {}}
             />
             <SettingItem
-              icon="📄"
+              icon="document-outline"
               title="利用規約"
               onPress={() => {}}
             />
             <SettingItem
-              icon="🔒"
+              icon="lock-closed-outline"
               title="プライバシーポリシー"
               onPress={() => {}}
             />
@@ -154,7 +155,7 @@ export default function SettingsScreen() {
 
         <View style={styles.versionInfo}>
           <Text style={styles.versionText}>ハナトレ v1.0.0</Text>
-          <Text style={styles.copyrightText}>Made with 🧡 for better communication</Text>
+          <Text style={styles.copyrightText}>Made with love for better communication</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -242,7 +243,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   settingIcon: {
-    fontSize: 24,
     marginRight: 12,
   },
   settingTitle: {
@@ -253,10 +253,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: COLORS.textSub,
     marginTop: 2,
-  },
-  settingArrow: {
-    fontSize: 24,
-    color: COLORS.textLight,
   },
   versionInfo: {
     alignItems: 'center',

@@ -1,12 +1,7 @@
 import { Tabs } from 'expo-router';
-import { Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../constants/colors';
-
-type TabBarIconProps = {
-  focused: boolean;
-  color: string;
-  size: number;
-};
 
 export default function TabLayout() {
   return (
@@ -23,10 +18,8 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'ホーム',
-          tabBarIcon: ({ focused }: TabBarIconProps) => (
-            <Text style={[styles.tabIcon, focused && styles.tabIconActive]}>
-              {focused ? '🏠' : '🏡'}
-            </Text>
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons name={focused ? 'home' : 'home-outline'} size={24} color={color} />
           ),
         }}
       />
@@ -34,10 +27,8 @@ export default function TabLayout() {
         name="history"
         options={{
           title: '履歴',
-          tabBarIcon: ({ focused }: TabBarIconProps) => (
-            <Text style={[styles.tabIcon, focused && styles.tabIconActive]}>
-              {focused ? '📊' : '📈'}
-            </Text>
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons name={focused ? 'stats-chart' : 'stats-chart-outline'} size={24} color={color} />
           ),
         }}
       />
@@ -45,10 +36,8 @@ export default function TabLayout() {
         name="league"
         options={{
           title: 'リーグ',
-          tabBarIcon: ({ focused }: TabBarIconProps) => (
-            <Text style={[styles.tabIcon, focused && styles.tabIconActive]}>
-              {focused ? '🏆' : '🥇'}
-            </Text>
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons name={focused ? 'trophy' : 'trophy-outline'} size={24} color={color} />
           ),
         }}
       />
@@ -56,10 +45,8 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: '設定',
-          tabBarIcon: ({ focused }: TabBarIconProps) => (
-            <Text style={[styles.tabIcon, focused && styles.tabIconActive]}>
-              {focused ? '⚙️' : '🔧'}
-            </Text>
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons name={focused ? 'settings' : 'settings-outline'} size={24} color={color} />
           ),
         }}
       />
@@ -79,11 +66,5 @@ const styles = StyleSheet.create({
   tabBarLabel: {
     fontSize: 12,
     fontWeight: '600',
-  },
-  tabIcon: {
-    fontSize: 24,
-  },
-  tabIconActive: {
-    transform: [{ scale: 1.1 }],
   },
 });

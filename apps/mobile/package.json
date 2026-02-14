@@ -12,6 +12,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@expo/vector-icons": "^15.0.3",
     "expo": "~54.0.33",
     "expo-constants": "~18.0.6",
     "expo-dev-client": "~6.0.20",

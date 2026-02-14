@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS, MASCOT } from '../../constants/colors';
 import { useTrainingStore, TrainingCategory } from '../../store/useTrainingStore';
 
-const TRAINING_CATEGORIES: { id: TrainingCategory; icon: string; name: string; description: string }[] = [
-  { id: 'business', icon: '💼', name: 'ビジネス基礎', description: '会議・報告・提案' },
-  { id: 'presentation', icon: '🎤', name: 'プレゼン', description: '発表・説得・共感' },
-  { id: 'daily', icon: '💬', name: '日常会話', description: '雑談・説明・相談' },
-  { id: 'thinking', icon: '📝', name: '思考整理', description: '整理・分析・決断' },
+const TRAINING_CATEGORIES: { id: TrainingCategory; icon: keyof typeof Ionicons.glyphMap; name: string; description: string }[] = [
+  { id: 'business', icon: 'briefcase-outline', name: 'ビジネス基礎', description: '会議・報告・提案' },
+  { id: 'presentation', icon: 'mic-outline', name: 'プレゼン', description: '発表・説得・共感' },
+  { id: 'daily', icon: 'chatbubble-outline', name: '日常会話', description: '雑談・説明・相談' },
+  { id: 'thinking', icon: 'document-text-outline', name: '思考整理', description: '整理・分析・決断' },
 ];
 
 export default function HomeScreen() {
@@ -25,7 +26,10 @@ export default function HomeScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={styles.title}>ハナトレ</Text>
-          <Text style={styles.streak}>🔥 {userProgress.streak}日連続</Text>
+          <View style={styles.streakContainer}>
+            <Ionicons name="flame" size={18} color={COLORS.primary} />
+            <Text style={styles.streak}>{userProgress.streak}日連続</Text>
+          </View>
         </View>
 
         <View style={styles.profileCard}>
@@ -40,7 +44,10 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.missionCard}>
-          <Text style={styles.sectionTitle}>🎯 今日のミッション</Text>
+          <View style={styles.sectionTitleRow}>
+            <Ionicons name="flag" size={18} color={COLORS.text} />
+            <Text style={styles.sectionTitle}>今日のミッション</Text>
+          </View>
           <View style={styles.missionItem}>
             <Text style={styles.missionText}>○ ビジネス基礎 1問</Text>
           </View>
@@ -54,7 +61,10 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <Text style={styles.sectionTitle}>📚 トレーニング</Text>
+        <View style={styles.sectionTitleRow}>
+          <Ionicons name="book" size={18} color={COLORS.text} />
+          <Text style={styles.sectionTitle}>トレーニング</Text>
+        </View>
         <View style={styles.modeGrid}>
           {TRAINING_CATEGORIES.map((category) => (
             <TouchableOpacity
@@ -63,7 +73,7 @@ export default function HomeScreen() {
               onPress={() => handleCategoryPress(category.id)}
               activeOpacity={0.7}
             >
-              <Text style={styles.modeIcon}>{category.icon}</Text>
+              <Ionicons name={category.icon} size={32} color={COLORS.secondary} style={styles.modeIcon} />
               <Text style={styles.modeName}>{category.name}</Text>
               <Text style={styles.modeDescription}>{category.description}</Text>
             </TouchableOpacity>
@@ -90,6 +100,11 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     color: COLORS.primary,
+  },
+  streakContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
   streak: {
     fontSize: 16,
@@ -148,12 +163,17 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  sectionTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 12,
+    paddingHorizontal: 16,
+  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
     color: COLORS.text,
-    marginBottom: 12,
-    paddingHorizontal: 16,
   },
   missionItem: {
     paddingVertical: 8,
@@ -187,7 +207,6 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   modeIcon: {
-    fontSize: 32,
     marginBottom: 8,
   },
   modeName: {

@@ -1,26 +1,27 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS, MASCOT } from '../../constants/colors';
 import { useTrainingStore, TrainingCategory, TrainingMode } from '../../store/useTrainingStore';
 
-const CATEGORY_INFO: Record<TrainingCategory, { icon: string; name: string; description: string }> = {
-  business: { icon: '💼', name: 'ビジネス基礎', description: '会議・報告・提案のスキルを磨く' },
-  presentation: { icon: '🎤', name: 'プレゼン', description: '発表・説得・共感のスキルを磨く' },
-  daily: { icon: '💬', name: '日常会話', description: '雑談・説明・相談のスキルを磨く' },
-  thinking: { icon: '📝', name: '思考整理', description: '整理・分析・決断のスキルを磨く' },
+const CATEGORY_INFO: Record<TrainingCategory, { icon: keyof typeof Ionicons.glyphMap; name: string; description: string }> = {
+  business: { icon: 'briefcase-outline', name: 'ビジネス基礎', description: '会議・報告・提案のスキルを磨く' },
+  presentation: { icon: 'mic-outline', name: 'プレゼン', description: '発表・説得・共感のスキルを磨く' },
+  daily: { icon: 'chatbubble-outline', name: '日常会話', description: '雑談・説明・相談のスキルを磨く' },
+  thinking: { icon: 'document-text-outline', name: '思考整理', description: '整理・分析・決断のスキルを磨く' },
 };
 
-const MODE_INFO: { id: TrainingMode; icon: string; name: string; description: string; color: string }[] = [
+const MODE_INFO: { id: TrainingMode; icon: keyof typeof Ionicons.glyphMap; name: string; description: string; color: string }[] = [
   {
     id: 'quick',
-    icon: '⚡',
+    icon: 'flash',
     name: '瞬発力モード',
     description: '制限時間内に即座に回答！\n実践的な瞬発力を鍛えます',
     color: COLORS.primary,
   },
   {
     id: 'structured',
-    icon: '📐',
+    icon: 'layers',
     name: '構造化モード',
     description: 'ステップに沿って論理的に回答\n構造化された話し方を学びます',
     color: COLORS.secondary,
@@ -45,12 +46,15 @@ export default function TrainingSelectScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-        <Text style={styles.backButtonText}>← 戻る</Text>
+        <View style={styles.backButtonInner}>
+          <Ionicons name="arrow-back" size={20} color={COLORS.primary} />
+          <Text style={styles.backButtonText}>戻る</Text>
+        </View>
       </TouchableOpacity>
 
       <View style={styles.content}>
         <View style={styles.categoryHeader}>
-          <Text style={styles.categoryIcon}>{category.icon}</Text>
+          <Ionicons name={category.icon} size={48} color={COLORS.secondary} style={styles.categoryIcon} />
           <Text style={styles.categoryName}>{category.name}</Text>
           <Text style={styles.categoryDescription}>{category.description}</Text>
         </View>
@@ -74,13 +78,13 @@ export default function TrainingSelectScreen() {
             activeOpacity={0.7}
           >
             <View style={[styles.modeIconContainer, { backgroundColor: mode.color }]}>
-              <Text style={styles.modeIcon}>{mode.icon}</Text>
+              <Ionicons name={mode.icon} size={28} color={COLORS.white} />
             </View>
             <View style={styles.modeInfo}>
               <Text style={styles.modeName}>{mode.name}</Text>
               <Text style={styles.modeDescription}>{mode.description}</Text>
             </View>
-            <Text style={styles.modeArrow}>›</Text>
+            <Ionicons name="chevron-forward" size={24} color={COLORS.textLight} />
           </TouchableOpacity>
         ))}
       </View>
@@ -96,6 +100,11 @@ const styles = StyleSheet.create({
   backButton: {
     padding: 16,
   },
+  backButtonInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
   backButtonText: {
     fontSize: 16,
     color: COLORS.primary,
@@ -110,7 +119,6 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   categoryIcon: {
-    fontSize: 48,
     marginBottom: 8,
   },
   categoryName: {
@@ -177,9 +185,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 16,
   },
-  modeIcon: {
-    fontSize: 28,
-  },
   modeInfo: {
     flex: 1,
   },
@@ -193,9 +198,5 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: COLORS.textSub,
     lineHeight: 18,
-  },
-  modeArrow: {
-    fontSize: 28,
-    color: COLORS.textLight,
   },
 });

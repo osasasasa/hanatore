@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS, MASCOT } from '../../constants/colors';
 import { useTrainingStore } from '../../store/useTrainingStore';
 
@@ -7,32 +8,56 @@ type LeagueTier = 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
 interface LeagueUser {
   id: string;
   name: string;
-  avatar: string;
+  initial: string;
+  avatarColor: string;
   xp: number;
   rank: number;
   isCurrentUser?: boolean;
 }
 
-const LEAGUE_INFO: Record<LeagueTier, { name: string; icon: string; color: string }> = {
-  bronze: { name: 'ブロンズ', icon: '🥉', color: '#CD7F32' },
-  silver: { name: 'シルバー', icon: '🥈', color: '#C0C0C0' },
-  gold: { name: 'ゴールド', icon: '🥇', color: '#FFD700' },
-  platinum: { name: 'プラチナ', icon: '💎', color: '#E5E4E2' },
-  diamond: { name: 'ダイヤモンド', icon: '💠', color: '#B9F2FF' },
+const LEAGUE_INFO: Record<LeagueTier, { name: string; color: string }> = {
+  bronze: { name: 'ブロンズ', color: '#CD7F32' },
+  silver: { name: 'シルバー', color: '#C0C0C0' },
+  gold: { name: 'ゴールド', color: '#FFD700' },
+  platinum: { name: 'プラチナ', color: '#E5E4E2' },
+  diamond: { name: 'ダイヤモンド', color: '#B9F2FF' },
 };
 
 const SAMPLE_USERS: LeagueUser[] = [
-  { id: '1', name: 'たけし', avatar: '👨', xp: 520, rank: 1 },
-  { id: '2', name: 'さくら', avatar: '👩', xp: 480, rank: 2 },
-  { id: '3', name: 'けんた', avatar: '🧑', xp: 450, rank: 3 },
-  { id: '4', name: 'あなた', avatar: MASCOT, xp: 0, rank: 4, isCurrentUser: true },
-  { id: '5', name: 'みき', avatar: '👧', xp: 320, rank: 5 },
-  { id: '6', name: 'ゆうと', avatar: '👦', xp: 280, rank: 6 },
-  { id: '7', name: 'あおい', avatar: '🧒', xp: 250, rank: 7 },
-  { id: '8', name: 'はると', avatar: '👨‍🦱', xp: 200, rank: 8 },
-  { id: '9', name: 'ゆい', avatar: '👩‍🦰', xp: 150, rank: 9 },
-  { id: '10', name: 'そうた', avatar: '👨‍🦲', xp: 100, rank: 10 },
+  { id: '1', name: 'たけし', initial: 'た', avatarColor: '#5B8DEF', xp: 520, rank: 1 },
+  { id: '2', name: 'さくら', initial: 'さ', avatarColor: '#FF6B8A', xp: 480, rank: 2 },
+  { id: '3', name: 'けんた', initial: 'け', avatarColor: '#4ECDC4', xp: 450, rank: 3 },
+  { id: '4', name: 'あなた', initial: '', avatarColor: COLORS.primary, xp: 0, rank: 4, isCurrentUser: true },
+  { id: '5', name: 'みき', initial: 'み', avatarColor: '#A78BFA', xp: 320, rank: 5 },
+  { id: '6', name: 'ゆうと', initial: 'ゆ', avatarColor: '#34D399', xp: 280, rank: 6 },
+  { id: '7', name: 'あおい', initial: 'あ', avatarColor: '#F59E0B', xp: 250, rank: 7 },
+  { id: '8', name: 'はると', initial: 'は', avatarColor: '#6366F1', xp: 200, rank: 8 },
+  { id: '9', name: 'ゆい', initial: 'ゆ', avatarColor: '#EC4899', xp: 150, rank: 9 },
+  { id: '10', name: 'そうた', initial: 'そ', avatarColor: '#14B8A6', xp: 100, rank: 10 },
 ];
+
+function RankBadge({ rank }: { rank: number }) {
+  if (rank > 3) {
+    return <Text style={styles.rankNumber}>{rank}</Text>;
+  }
+  const colors = ['#FFD700', '#C0C0C0', '#CD7F32'];
+  return (
+    <View style={[styles.rankBadge, { backgroundColor: colors[rank - 1] }]}>
+      <Text style={styles.rankBadgeText}>{rank}</Text>
+    </View>
+  );
+}
+
+function UserAvatar({ user }: { user: LeagueUser }) {
+  if (user.isCurrentUser) {
+    return <Text style={styles.rankAvatar}>{MASCOT}</Text>;
+  }
+  return (
+    <View style={[styles.avatarCircle, { backgroundColor: user.avatarColor }]}>
+      <Text style={styles.avatarInitial}>{user.initial}</Text>
+    </View>
+  );
+}
 
 export default function LeagueScreen() {
   const { userProgress } = useTrainingStore();
@@ -58,11 +83,11 @@ export default function LeagueScreen() {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <Text style={styles.title}>🏆 リーグ</Text>
+          <Text style={styles.title}>リーグ</Text>
         </View>
 
         <View style={[styles.leagueCard, { borderColor: league.color }]}>
-          <Text style={styles.leagueIcon}>{league.icon}</Text>
+          <Ionicons name="medal" size={48} color={league.color} style={styles.leagueIcon} />
           <Text style={styles.leagueName}>{league.name}リーグ</Text>
           <Text style={styles.leagueInfo}>残り {daysLeft} 日 | 上位3名が昇格</Text>
         </View>
@@ -75,7 +100,10 @@ export default function LeagueScreen() {
             <Text style={styles.yourRankXp}>{getTotalXp()} XP</Text>
           </View>
           {currentUserRank <= 3 ? (
-            <Text style={styles.promotionText}>🎉 昇格圏内です！</Text>
+            <View style={styles.promotionRow}>
+              <Ionicons name="sparkles" size={16} color={COLORS.white} />
+              <Text style={styles.promotionText}>昇格圏内です！</Text>
+            </View>
           ) : (
             <Text style={styles.promotionHint}>
               あと {users[2]?.xp - getTotalXp() + 1} XP で昇格圏内
@@ -91,10 +119,10 @@ export default function LeagueScreen() {
             style={[styles.rankCard, user.isCurrentUser && styles.rankCardHighlight]}
           >
             <View style={styles.rankLeft}>
-              <Text style={styles.rankNumber}>
-                {user.rank === 1 ? '🥇' : user.rank === 2 ? '🥈' : user.rank === 3 ? '🥉' : user.rank}
-              </Text>
-              <Text style={styles.rankAvatar}>{user.avatar}</Text>
+              <View style={styles.rankNumberContainer}>
+                <RankBadge rank={user.rank} />
+              </View>
+              <UserAvatar user={user} />
               <Text style={[styles.rankName, user.isCurrentUser && styles.rankNameHighlight]}>
                 {user.name}
               </Text>
@@ -140,7 +168,6 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   leagueIcon: {
-    fontSize: 48,
     marginBottom: 8,
   },
   leagueName: {
@@ -188,6 +215,11 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     marginLeft: 16,
   },
+  promotionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
   promotionText: {
     fontSize: 16,
     color: COLORS.white,
@@ -229,16 +261,44 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  rankNumberContainer: {
+    width: 32,
+    alignItems: 'center',
+  },
   rankNumber: {
     fontSize: 18,
     fontWeight: 'bold',
     color: COLORS.text,
-    width: 32,
     textAlign: 'center',
+  },
+  rankBadge: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rankBadgeText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: COLORS.white,
   },
   rankAvatar: {
     fontSize: 24,
     marginHorizontal: 12,
+  },
+  avatarCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 12,
+  },
+  avatarInitial: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: COLORS.white,
   },
   rankName: {
     fontSize: 16,

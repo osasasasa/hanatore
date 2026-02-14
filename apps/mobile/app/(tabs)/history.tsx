@@ -1,12 +1,13 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS, MASCOT } from '../../constants/colors';
 import { useTrainingStore } from '../../store/useTrainingStore';
 
-const CATEGORY_ICONS: Record<string, string> = {
-  business: '💼',
-  presentation: '🎤',
-  daily: '💬',
-  thinking: '📝',
+const CATEGORY_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
+  business: 'briefcase-outline',
+  presentation: 'mic-outline',
+  daily: 'chatbubble-outline',
+  thinking: 'document-text-outline',
 };
 
 const CATEGORY_NAMES: Record<string, string> = {
@@ -35,7 +36,7 @@ export default function HistoryScreen() {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <Text style={styles.title}>📊 履歴</Text>
+          <Text style={styles.title}>履歴</Text>
         </View>
 
         <View style={styles.statsRow}>
@@ -69,9 +70,12 @@ export default function HistoryScreen() {
               <View key={session.id} style={styles.historyCard}>
                 <View style={styles.historyHeader}>
                   <View style={styles.historyCategory}>
-                    <Text style={styles.categoryIcon}>
-                      {CATEGORY_ICONS[session.category] || '📚'}
-                    </Text>
+                    <Ionicons
+                      name={CATEGORY_ICONS[session.category] || 'book-outline'}
+                      size={20}
+                      color={COLORS.secondary}
+                      style={styles.categoryIcon}
+                    />
                     <Text style={styles.categoryName}>
                       {CATEGORY_NAMES[session.category] || session.category}
                     </Text>
@@ -102,9 +106,16 @@ export default function HistoryScreen() {
                   </View>
                 </View>
                 <View style={styles.modeTag}>
-                  <Text style={styles.modeTagText}>
-                    {session.mode === 'quick' ? '⚡ 瞬発力モード' : '📐 構造化モード'}
-                  </Text>
+                  <View style={styles.modeTagInner}>
+                    <Ionicons
+                      name={session.mode === 'quick' ? 'flash' : 'layers'}
+                      size={12}
+                      color={COLORS.textSub}
+                    />
+                    <Text style={styles.modeTagText}>
+                      {session.mode === 'quick' ? '瞬発力モード' : '構造化モード'}
+                    </Text>
+                  </View>
                 </View>
               </View>
             ))
@@ -205,7 +216,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   categoryIcon: {
-    fontSize: 20,
     marginRight: 8,
   },
   categoryName: {
@@ -246,6 +256,11 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 12,
     alignSelf: 'flex-start',
+  },
+  modeTagInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
   modeTagText: {
     fontSize: 12,
